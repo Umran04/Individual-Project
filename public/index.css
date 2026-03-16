@@ -1,0 +1,156 @@
+/* ---------- PAGE ---------- */
+
+body {
+  margin: 0;
+  background: #f4f6f8;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #1e3a8a;
+}
+
+/* ---------- FORM ---------- */
+
+h3 {
+  margin-bottom: 6px;
+  font-size: 16px;
+}
+
+.station-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.station-results {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+  border: 1px solid #ddd;
+  background: white;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.station-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.station-item:hover {
+  background: #eeeeee;
+}
+
+/* ---------- BUTTONS ---------- */
+
+.submit-button,
+.clear-button {
+  padding: 8px 16px;
+  margin-top: 10px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.submit-button {
+  background: #2563eb;
+  color: white;
+}
+
+.submit-button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.clear-button {
+  background: #ef4444;
+  color: white;
+}
+
+/* ---------- MESSAGES ---------- */
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.loading-message {
+  margin-top: 10px;
+  color: #555;
+}
+
+/* ---------- JOURNEYS ---------- */
+
+.journey-card {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 6px;
+}
+
+.journey-duration {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* ---------- LEGS ---------- */
+
+.leg-container {
+  margin-top: 10px;
+  padding-left: 10px;
+}
+
+.leg-title {
+  font-weight: bold;
+}
+
+.leg-route {
+  margin: 4px 0;
+}
+
+.station-list {
+  list-style: none;
+  padding-left: 12px;
+}
+
+.station-list-item {
+  padding: 2px 0;
+}
+
+/* ---------- ZONE BADGE ---------- */
+
+.zone-one {
+  display: inline-block;
+  background: white;
+  color: #d90429;
+  border: 1px solid #d90429;
+  border-radius: 4px;
+  padding: 1px 5px;
+  margin-left: 6px;
+  font-size: 12px;
+}
+
+/* ---------- INTERCHANGE ---------- */
+
+.interchange {
+  margin: 8px 0;
+  padding: 6px;
+  background: #f1f5f9;
+  border-left: 3px solid black;
+  font-size: 14px;
+}
