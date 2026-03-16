@@ -5,6 +5,25 @@ import JourneyDisplay from "./JourneyDisplay";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
+function removeDuplicates(journeys) {
+  const seen = new Set();
+  
+  return journeys.filter(journey => {
+    
+    const lines = journey.legs
+      .filter(leg => ALLOWED_MODES.includes(leg.mode?.id))
+      .map(leg => leg.routeOptions?.[0]?.lineIdentifier?.id || leg.line?.id || leg.mode?.id)
+      .join('-');
+   
+    if (seen.has(lines)) {
+      return false; 
+    }
+    
+    seen.add(lines);
+    return true; 
+  });
+}
+
 
 
 export default function App() {
@@ -85,7 +104,8 @@ export default function App() {
           setJourneyError("No journeys returned");
           return;
         }
-        setJourneys(data.journeys);
+        const uniqueJourneys = removeDuplicates(data.journeys)
+        setJourneys (uniqueJourneys)
       })
       .catch(() => setJourneyError("Failed to fetch journeys"))
       .finally(() => setIsLoading(false));
