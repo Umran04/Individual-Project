@@ -42,8 +42,8 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   /* Helper function -> Resolves station HUBS to actual station IDs
-     - If station ID starts with "HUB", fetch the first valid child station
-     - Otherwise, use the station as it is */
+     - If station ID starts with "HUB" then fetch the first valid child station
+     - Otherwise use the station as it is */
 
   async function selectStop(stop, setStopState, setInputState) {
     // Fetch children if HUB station is found
