@@ -2,6 +2,8 @@ import { useState } from "react";
 import { ALLOWED_MODES } from "./const";
 import StationInput from "./StationInput";
 import JourneyDisplay from "./JourneyDisplay";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -105,7 +107,9 @@ export default function App() {
           return;
         }
         const uniqueJourneys = removeDuplicates(data.journeys)
-        setJourneys (uniqueJourneys)
+
+
+        setJourneys(uniqueJourneys)
       })
       .catch(() => setJourneyError("Failed to fetch journeys"))
       .finally(() => setIsLoading(false));
@@ -122,6 +126,12 @@ export default function App() {
     setJourneys([]);
     setJourneyError("");
     setIsLoading(false);
+  }
+
+  /* JOURNEY DURATION SORT FUNCTION */
+  function sortByTime() {
+    const sorted = [...journeys].sort((a, b) => a.duration - b.duration);
+    setJourneys(sorted);
   }
 
   /* DISPLAY */
@@ -160,11 +170,19 @@ export default function App() {
         <button className="submit-button" type="submit" disabled={isLoading}>
           {isLoading ? "Loading…" : "Find journeys"}
         </button>
+
+        <button className="clear-button" onClick={clear}>
+          CLEAR
+        </button>
       </form>
 
-      <button className="clear-button" onClick={clear}>
-        CLEAR
-      </button>
+      
+
+      {journeys.length > 0 && (
+        <button className="sort-button" onClick={sortByTime}>
+          Sort by Time <FontAwesomeIcon icon={faClock} />
+        </button>
+      )}
 
       {journeyError && <p className="error-message">{journeyError}</p>}
       {isLoading && <p className="loading-message">Loading journeys…</p>}
