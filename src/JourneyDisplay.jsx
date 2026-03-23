@@ -21,7 +21,7 @@ function formatDuration(minutes) {
   return ` ${h > 0 ? h : ''} ${formatHour(h)} ${h > 0 ? 'and' : ''} ${m} minutes `;
 }
 
-export default function JourneyDisplay({ journey, index }) {
+export default function JourneyDisplay({ journey, index, lineStatus }) {
 
   const filteredLegs = journey.legs.filter(
     leg => ALLOWED_MODES.includes(leg.mode?.id)
@@ -37,7 +37,7 @@ export default function JourneyDisplay({ journey, index }) {
 
       {filteredLegs.map((leg, j) => (
         <div key={j}>
-          <LegDisplay leg={leg} />
+          <LegDisplay leg={leg} lineStatus={lineStatus} />
 
           {j < filteredLegs.length - 1 && (
             <div className="interchange">

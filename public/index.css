@@ -144,6 +144,17 @@ h3 {
   padding: 2px 0;
 }
 
+.line-status {
+  display: inline-block;
+  padding: 4px 10px;
+  margin-top: 6px;
+  margin-left: 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: white;
+}
+
 /* ---------- ZONE BADGE ---------- */
 
 .zone-one {

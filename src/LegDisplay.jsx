@@ -1,6 +1,8 @@
 import { LINE_COLOURS, OVERGROUND_LINES, ZONE_1_STATIONS } from "./const";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // mention use of FONTAWSOME in report
 import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons/faLongArrowAltRight";
+import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 
 function isZone1Station(name) {
   return ZONE_1_STATIONS.some(z => name.includes(z));
@@ -10,12 +12,72 @@ function isOvergroundVariant(lineId){
   return OVERGROUND_LINES.includes(lineId)
 }
 
-export default  function LegDisplay({ leg }) {
+// Select background colour to display for status
+function getStatusColor(status) {
+  if (!status) return "gray";
+
+  if (status.includes("Good")) return "green";
+
+  if (
+    status.includes("Minor") ||
+    status.includes("Planned") ||
+    status.includes("Part")
+  ) {
+    return "orange";
+  }
+
+  if (
+    status.includes("Severe") ||
+    status.includes("Suspended")
+  ) {
+    return "red";
+  }
+
+  return "gray";
+}
+
+// Select message to display for status
+function getStatusDisplay(status) {
+  if (!status) return "Loading...";
+
+  if (status.includes("Good")) {
+    return "Good Service";
+  }
+
+  if (
+    status.includes("Minor") ||
+    status.includes("Planned") ||
+    status.includes("Part")
+  ) {
+    return (
+      <>
+        <FontAwesomeIcon icon={faTriangleExclamation} /> {status}
+      </>
+    );
+  }
+
+  if (
+    status.includes("Severe") ||
+    status.includes("Suspended")
+  ) {
+    return (
+      <>
+        <FontAwesomeIcon icon={faExclamation} /> {status}
+      </>
+    );
+  }
+
+  return status;
+}
+
+export default  function LegDisplay({ leg, lineStatus }) {
     const stations = leg.path?.stopPoints || [];
     const lineId =
       leg.routeOptions?.[0]?.lineIdentifier?.id ||
       leg.line?.id ||
       leg.mode?.id;
+    
+    const status = lineStatus?.[lineId];
     const lineColour = LINE_COLOURS[lineId];
 
     return (
@@ -25,6 +87,12 @@ export default  function LegDisplay({ leg }) {
             leg.line?.name ||
             leg.mode?.name} {isOvergroundVariant(lineId) && " — OVERGROUND"}
         </strong>
+
+        <p className="line-status" style={{backgroundColor: getStatusColor(status) }} >
+          {getStatusDisplay(status)}
+        </p>  
+      
+
         <p className="leg-route">
           {leg.departurePoint.commonName} <FontAwesomeIcon icon={faLongArrowAltRight} /> {" "} {leg.arrivalPoint.commonName}
         </p>
