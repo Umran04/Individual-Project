@@ -44,11 +44,20 @@ h3 {
   overflow-y: auto;
 }
 
+.station-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.station-item:hover {
+  background: #eeeeee;
+}
 
 /* ---------- BUTTONS ---------- */
 
 .submit-button,
-.clear-button {
+.clear-button,
+.sort-time-button {
   padding: 8px 16px;
   margin-top: 10px;
   margin-right: 10px;
@@ -70,6 +79,11 @@ h3 {
 
 .clear-button {
   background: #ef4444;
+  color: white;
+}
+
+.sort-time-button{
+  background-color: #1e3a8a;
   color: white;
 }
 
@@ -127,7 +141,6 @@ h3 {
 .station-list-item {
   padding: 2px 0;
 }
-
 
 
 /* ---------- ZONE BADGE ---------- */

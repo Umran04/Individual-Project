@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { ALLOWED_MODES } from "./const";
 import StationInput from "./StationInput";
 import JourneyDisplay from "./JourneyDisplay";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
 
 
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -139,6 +141,11 @@ export default function App(){
     setIsLoading(false);
   }
 
+  //Functionality to sort journeys by the fastest time at the top
+  function sortByTime(){
+    const sorted = [...journeys].sort((a, b) => a.duration - b.duration);
+    setJourneys(sorted);
+  }
   
 
   /* DISPLAY */
@@ -183,7 +190,11 @@ export default function App(){
         </button>
       </form>
 
-      
+      {journeys.length > 0 && (
+          <button className="sort-time-button" onClick={sortByTime}>
+            Sort by Time <FontAwesomeIcon icon={faClock} />
+          </button>
+      )}
 
       
 
