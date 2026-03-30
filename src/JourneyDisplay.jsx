@@ -25,7 +25,7 @@ function formatDuration(minutes){
 }
 
 
-export default function JourneyDisplay({ journey, index }) {
+export default function JourneyDisplay({ journey, index, lineStatus }) {
 
   //ALLOWED_MODES is where it gets the filters from - so tube, DLR, Elizabeth and Overground should be the only modes of transport dispalyed
   const filteredLegs = journey.legs.filter(
@@ -44,7 +44,7 @@ export default function JourneyDisplay({ journey, index }) {
 
       {filteredLegs.map((leg, j) => (
         <div key={j}>
-          <LegDisplay leg={leg}  />
+          <LegDisplay leg={leg} lineStatus={lineStatus} />
 
           {j < filteredLegs.length - 1 && (
             <div className="interchange">

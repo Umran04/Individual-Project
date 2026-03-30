@@ -48,11 +48,25 @@ export default function App(){
   const [journeyError, setJourneyError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  
+  const [lineStatus, setLineStatus] = useState({});
 
-  
- 
-  
+  // Fetch current status on lines and store it as a map to be passed as props
+  useEffect(() => {
+    fetch(`https://api.tfl.gov.uk/Line/Mode/tube,dlr,overground,elizabeth-line/Status?app_key=${API_KEY}`)
+    .then(res => res.json())
+    .then(data => {
+        const statusMap = {};
+
+        data.forEach(line => {
+          const status = line.lineStatuses?.[0]?.statusSeverityDescription || "Unknown";
+
+          statusMap[line.id] = status
+        });
+
+        setLineStatus(statusMap);
+    });
+  }, []);
+
 
   // Function that converts station HUBS to station IDs
   // If station ID starts with "HUB" then fetch the first valid child station
@@ -222,7 +236,8 @@ export default function App(){
         <JourneyDisplay 
           key={i}
           journey={journey}
-          index={i} 
+          index={i}
+          lineStatus={lineStatus} 
         />
       ))}
     </div>
