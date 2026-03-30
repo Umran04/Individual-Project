@@ -4,6 +4,7 @@ import StationInput from "./StationInput";
 import JourneyDisplay from "./JourneyDisplay";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { faArrowsSpin } from "@fortawesome/free-solid-svg-icons/faArrowsSpin";
 
 
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -146,6 +147,15 @@ export default function App(){
     const sorted = [...journeys].sort((a, b) => a.duration - b.duration);
     setJourneys(sorted);
   }
+
+  //Functionality to sort journeys by the fewest interchanges at the top
+   function sortByChanges(){
+    const sorted = [...journeys].sort((a, b) => {
+      const x = a.legs.filter(leg => ALLOWED_MODES.includes(leg.mode?.id)).length - 1;
+      const y = b.legs.filter(leg => ALLOWED_MODES.includes(leg.mode?.id)).length - 1;
+      return x - y; });
+    setJourneys(sorted);
+  }
   
 
   /* DISPLAY */
@@ -191,9 +201,15 @@ export default function App(){
       </form>
 
       {journeys.length > 0 && (
+        <>
           <button className="sort-time-button" onClick={sortByTime}>
             Sort by Time <FontAwesomeIcon icon={faClock} />
           </button>
+
+          <button className="sort-change-button" onClick={sortByChanges}>
+              Sort by Changes <FontAwesomeIcon icon={faArrowsSpin} />
+          </button>
+        </>
       )}
 
       
