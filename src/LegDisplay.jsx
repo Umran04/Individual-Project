@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // mention use
 import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons/faLongArrowAltRight";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
 
-
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 
 //Checking if station is in zone 1
@@ -24,11 +25,11 @@ function getStatusColor(status){
 
   if (status.includes("Good")) return "green";
 
-  if ( status.includes("Minor") || status.includes("Planned") || status.includes("Part")){
+  if (status.includes("Minor") || status.includes("Planned") || status.includes("Part")){
     return "orange";
   }
 
-  if ( status.includes("Severe") || status.includes("Suspended")){
+  if (status.includes("Severe") || status.includes("Suspended")){
     return "red";
   }
 
@@ -43,7 +44,7 @@ function getStatusDisplay(status){
     return "Good Service";
   }
 
-  if ( status.includes("Minor") || status.includes("Planned") || status.includes("Part")){
+  if (status.includes("Minor") || status.includes("Planned") || status.includes("Part")){
     return (
       <>
         <FontAwesomeIcon icon={faTriangleExclamation} /> 
@@ -52,7 +53,7 @@ function getStatusDisplay(status){
     );
   }
 
-  if ( status.includes("Severe") || status.includes("Suspended")){
+  if (status.includes("Severe") || status.includes("Suspended")){
     return (
       <>
         <FontAwesomeIcon icon={faExclamation} /> 
@@ -64,11 +65,65 @@ function getStatusDisplay(status){
   return status;
 }
 
+//Display next arrival message based on time remaining
+function getNextArrival(nextArrival){
+  if(nextArrival == 0){ 
+    return(
+      <>
+        <p className="next-arrival">
+          {nextArrival !== null && ` Next train is now`} 
+        </p>
+      </>
+    );   
+  }
+
+  if (nextArrival == 1){
+    return(
+    <>
+      <p className="next-arrival">
+        {nextArrival !== null && ` Next train in : ${nextArrival} min`} 
+      </p>
+    </>
+    );
+  }
+
+  if(nextArrival > 1){
+    return(
+    <>
+      <p className="next-arrival">
+        {nextArrival !== null && ` Next train in : ${nextArrival} mins`} 
+      </p>
+    </>
+    );
+  }
+
+  return nextArrival;
+}
+
 export default function LegDisplay({ leg, lineStatus }){
     const stations = leg.path?.stopPoints || [];
     const lineId = leg.routeOptions?.[0]?.lineIdentifier?.id || leg.line?.id || leg.mode?.id; // -> Used AI to generate this line of code 
     const status = lineStatus?.[lineId];
     const lineColour = LINE_COLOURS[lineId];
+    const [nextArrival, setNextArrival] = useState();
+
+    useEffect(()=> {
+      const stopId = leg.departurePoint?.naptanId;
+
+      if(!stopId) return;
+
+      fetch(`https://api.tfl.gov.uk/StopPoint/${stopId}/Arrivals`)
+      .then(res => res.json())
+      .then(data => {
+        const filteredData = data
+        .filter(a => a.lineId === lineId )
+        .sort((a, b) => a.timeToStation - b.timeToStation);
+
+        if (filteredData.length > 0){
+          setNextArrival(Math.round(filteredData[0].timeToStation / 60));
+        }
+      });
+    }, [leg, lineId]);
 
     return (
       //In style CSS to reflect the line colour for the segment of the journey
@@ -83,6 +138,9 @@ export default function LegDisplay({ leg, lineStatus }){
         <p className="line-status" style={{backgroundColor: getStatusColor(status) }} >
           {getStatusDisplay(status)}
         </p>
+
+        {getNextArrival(nextArrival)}
+        
       
         <p className="leg-route">
           {leg.departurePoint.commonName} <FontAwesomeIcon icon={faLongArrowAltRight} /> {" "} {leg.arrivalPoint.commonName}

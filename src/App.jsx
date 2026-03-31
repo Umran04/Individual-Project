@@ -92,7 +92,7 @@ export default function App(){
           return;
         }
       } catch (err){
-        console.error("Failed to fetch hub children", err);
+        console.error("Failed to fetch child stops", err);
       }
     }
 
@@ -130,7 +130,8 @@ export default function App(){
       .then(res => res.json())
       .then(data => {
         if (!data.journeys) {
-          setJourneyError("No journeys returned"); //Error message if app runs but route is not available
+          //Error message if app runs but route is not available
+          setJourneyError("No journeys returned - please enter Underground, Overground, DLR or Elizabeth line stations only"); 
           return;
         }
 
@@ -187,7 +188,8 @@ export default function App(){
           setValue={setStartStation}
           selectedStop={startStop}
           setSelectedStop={setStartStop}
-          selectStop={selectStop} />
+          selectStop={selectStop} 
+        />
 
         <StationInput
           label="End station"
@@ -195,7 +197,8 @@ export default function App(){
           setValue={setEndStation}
           selectedStop={endStop}
           setSelectedStop={setEndStop}
-          selectStop={selectStop} />
+          selectStop={selectStop} 
+        />
 
         <StationInput
           label="Via station (optional)"
@@ -203,10 +206,11 @@ export default function App(){
           setValue={setViaStation}
           selectedStop={viaStop}
           setSelectedStop={setViaStop}
-          selectStop={selectStop} />
+          selectStop={selectStop} 
+        />
 
         <button className="submit-button" type="submit" disabled={isLoading}>
-          {isLoading ? "Loading…" : "Find journeys"}
+          {isLoading ? "Loading..." : "Find journeys"}
         </button>
 
         <button className="clear-button" onClick={clear}>
@@ -229,7 +233,7 @@ export default function App(){
       
 
       {journeyError && <p className="error-message">{journeyError}</p>}
-      {isLoading && <p className="loading-message">Loading journeys…</p>}
+      {isLoading && <p className="loading-message">Loading journey...</p>}
 
       {journeys.map((journey, i) => (
         //Passing props to journey display 
