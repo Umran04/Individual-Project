@@ -23,11 +23,7 @@ export default function StationInput({
       return;
     }
 
-    fetch(
-      `https://api.tfl.gov.uk/StopPoint/Search/${encodeURIComponent(
-        value
-      )}?app_key=${API_KEY}`
-    )
+    fetch(`https://api.tfl.gov.uk/StopPoint/Search/${encodeURIComponent( value )}?app_key=${API_KEY}`)
       .then(res => res.json())
       .then(data => setResults(data.matches || []));
   }, [value]);
@@ -52,7 +48,7 @@ export default function StationInput({
             <li
               key={stop.id}
               className="station-item"
-              onMouseDown={() =>{
+              onMouseDown={() => {
                 selectStop(stop, setSelectedStop, setValue)
                 setResults([]);
               }}

@@ -5,7 +5,7 @@ import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 
-const API_KEY = import.meta.env.VITE_API_KEY;
+//const API_KEY = import.meta.env.VITE_API_KEY;
 
 
 //Checking if station is in zone 1
@@ -94,6 +94,16 @@ function getNextArrival(nextArrival){
         {nextArrival !== null && ` Next train in : ${nextArrival} mins`} 
       </p>
     </>
+    );
+  }
+
+  if(nextArrival == null){
+    return(
+      <>
+        <p className="next-arrival">
+          {`Next arrival is currently not available`} 
+        </p>
+      </>
     );
   }
 

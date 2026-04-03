@@ -1,3 +1,5 @@
+
+//AI generated array
 export const ZONE_1_STATIONS = [
   "Aldgate",
   "Aldgate East",
@@ -72,7 +74,7 @@ export const ALLOWED_MODES = [
   "national-rail"
 ];
 
-
+//AI generated array
 export const LINE_COLOURS = {
   bakerloo: "#894E24",
   central: "#DC241F",
