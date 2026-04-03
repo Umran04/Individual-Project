@@ -9,6 +9,7 @@ import { faArrowsSpin } from "@fortawesome/free-solid-svg-icons/faArrowsSpin";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
+//test
 
 //Using a set to check if multiple journeys are the exact same by filtering and mapping the journey legs
 function removeDuplicates(journeys){
@@ -31,7 +32,7 @@ function removeDuplicates(journeys){
   });
 }
 
-//
+
 
 
 
