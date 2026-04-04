@@ -110,10 +110,11 @@ function getNextArrival(nextArrival){
   return nextArrival;
 }
 
+
+
 export default function LegDisplay({ leg, lineStatus }){
     const stations = leg.path?.stopPoints || [];
     const lineId = leg.routeOptions?.[0]?.lineIdentifier?.id || leg.line?.id || leg.mode?.id; // -> Used AI to generate this line of code 
-    //const status = lineStatus?.[lineId];
     const status = lineStatus?.[lineId]?.status;
     const reason = lineStatus?.[lineId]?.reason;
     const lineColour = LINE_COLOURS[lineId];
@@ -122,13 +123,13 @@ export default function LegDisplay({ leg, lineStatus }){
     useEffect(()=> {
       const stopId = leg.departurePoint?.naptanId;
 
-      if(!stopId) return;
+      if(!stopId || !lineId) return;
 
       fetch(`https://api.tfl.gov.uk/StopPoint/${stopId}/Arrivals`)
       .then(res => res.json())
       .then(data => {
         const filteredData = data
-        .filter(a => a.lineId === lineId )
+        .filter(a => a.lineId === lineId)
         .sort((a, b) => a.timeToStation - b.timeToStation);
 
         if (filteredData.length > 0){
@@ -142,6 +143,7 @@ export default function LegDisplay({ leg, lineStatus }){
       <div className="leg-container" style={{ borderLeft: `6px solid ${lineColour}` }}>
         <strong className="leg-title" style={{ color: lineColour }}>
           {leg.routeOptions?.[0]?.lineIdentifier?.name || leg.line?.name || leg.mode?.name} {/* -> Used AI to generate this line of code */}
+
           {/* Add the word OVERGROUND if the line was part of the previous Overground network  */}
           {isOvergroundVariant(lineId) && " — OVERGROUND"}
         </strong>
@@ -159,6 +161,7 @@ export default function LegDisplay({ leg, lineStatus }){
         </p>
         {stations.length > 0 && (
           <ul className="station-list">
+
             {/* In style CSS to reflect the line colour for the stations of the segment in the journey */}
             {stations.map((s, i) => (
               <li key={i} className="station-list-item" style={{ color: lineColour }}>

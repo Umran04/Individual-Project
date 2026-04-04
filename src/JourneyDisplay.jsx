@@ -24,6 +24,13 @@ function formatDuration(minutes){
   return ` ${h > 0 ? h : ''} ${formatHour(h)} ${h > 0 ? 'and' : ''} ${m} minutes `;
 }
 
+//Display fare up to 2 decimal points
+function formatFare(fare){
+  if (!fare) return 'Error calculating fare';
+
+  return `£${(fare/100).toFixed(2)}`;
+}
+
 
 export default function JourneyDisplay({ journey, index, lineStatus }) {
 
@@ -36,10 +43,18 @@ export default function JourneyDisplay({ journey, index, lineStatus }) {
     <div className="journey-card">
       <h3>Journey {index + 1}</h3>
 
-      <p className="journey-duration">
-        <FontAwesomeIcon icon={faClock} />{" "} {formatDuration(journey.duration)}
-      </p>
 
+      
+        <p className="journey-info">
+          <FontAwesomeIcon icon={faClock} /> 
+          {"      "}
+          {formatDuration(journey.duration)}
+          {"     |     "}
+          {formatFare(journey.fare?.totalCost)}
+        </p>
+        
+
+    
       
 
       {filteredLegs.map((leg, j) => (

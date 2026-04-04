@@ -5,6 +5,7 @@ import JourneyDisplay from "./JourneyDisplay";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { faArrowsSpin } from "@fortawesome/free-solid-svg-icons/faArrowsSpin";
+import { faPoundSign } from "@fortawesome/free-solid-svg-icons";
 
 
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -182,6 +183,12 @@ export default function App(){
       return x - y; });
     setJourneys(sorted);
   }
+
+  //Functionality to sort jounreys by the fare cost of each journey with the cheapest at the top
+  function sortByFare(){
+    const sorted = [...journeys].sort((a, b) => a.fare?.totalCost - b.fare?.totalCost);
+    setJourneys(sorted);
+  }
   
 
   /* DISPLAY */
@@ -221,7 +228,7 @@ export default function App(){
         />
 
         <button className="submit-button" type="submit" disabled={isLoading}>
-          {isLoading ? "Loading..." : "Find journeys"}
+          {isLoading ? "Loading..." : "FIND JOURNEYS"}
         </button>
 
         <button className="clear-button" onClick={clear}>
@@ -232,11 +239,15 @@ export default function App(){
       {journeys.length > 0 && (
         <>
           <button className="sort-time-button" onClick={sortByTime}>
-            Sort by Time <FontAwesomeIcon icon={faClock} />
+            Sort by Time {"   |  "} <FontAwesomeIcon icon={faClock} />
           </button>
 
           <button className="sort-change-button" onClick={sortByChanges}>
-              Sort by Changes <FontAwesomeIcon icon={faArrowsSpin} />
+              Sort by Changes {"   |  "} <FontAwesomeIcon icon={faArrowsSpin} />
+          </button>
+
+          <button className="sort-fare-button" onClick={sortByFare}>
+              Sort by Fare {"   |  "} <FontAwesomeIcon icon={faPoundSign} />
           </button>
         </>
       )}

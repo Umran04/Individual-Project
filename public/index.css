@@ -58,7 +58,8 @@ h3 {
 .submit-button,
 .clear-button,
 .sort-time-button,
-.sort-change-button {
+.sort-change-button,
+.sort-fare-button {
   padding: 8px 16px;
   margin-top: 10px;
   margin-right: 10px;
@@ -93,6 +94,10 @@ h3 {
   color: white;
 }
 
+.sort-fare-button{
+  background-color: green;
+  color: white;
+}
 
 /* ---------- MESSAGES ---------- */
 
@@ -119,10 +124,10 @@ h3 {
 
 .next-arrival{
   display: inline-block;
-  color: darkcyan;
-  border: 1px solid darkcyan;
-  border-radius: 4px;
-  padding: 1px 5px;
+  color: white;
+  background-color: darkcyan;
+  border-radius: 12px;
+  padding: 4px 10px;
   margin-left: 6px;
   font-size: 15px;
 }
@@ -138,10 +143,12 @@ h3 {
   /*cursor: pointer;*/
 }
 
-.journey-duration {
+.journey-info {
   font-weight: bold;
   margin-bottom: 10px;
 }
+
+
 
 
 
