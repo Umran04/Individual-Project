@@ -113,7 +113,9 @@ function getNextArrival(nextArrival){
 export default function LegDisplay({ leg, lineStatus }){
     const stations = leg.path?.stopPoints || [];
     const lineId = leg.routeOptions?.[0]?.lineIdentifier?.id || leg.line?.id || leg.mode?.id; // -> Used AI to generate this line of code 
-    const status = lineStatus?.[lineId];
+    //const status = lineStatus?.[lineId];
+    const status = lineStatus?.[lineId]?.status;
+    const reason = lineStatus?.[lineId]?.reason;
     const lineColour = LINE_COLOURS[lineId];
     const [nextArrival, setNextArrival] = useState();
 
@@ -146,7 +148,7 @@ export default function LegDisplay({ leg, lineStatus }){
 
         {/*In style CSS to reflect the status of the line for the segment of the journey*/}
         <p className="line-status" style={{backgroundColor: getStatusColor(status) }} >
-          {getStatusDisplay(status)}
+          {getStatusDisplay(status)} {"  "} {reason}
         </p>
 
         {getNextArrival(nextArrival)}

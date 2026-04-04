@@ -9,7 +9,7 @@ import { faArrowsSpin } from "@fortawesome/free-solid-svg-icons/faArrowsSpin";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-//test 3
+
 
 //Using a set to check if multiple journeys are the exact same by filtering and mapping the journey legs
 function removeDuplicates(journeys){
@@ -21,7 +21,7 @@ function removeDuplicates(journeys){
     //ALLOWED_MODES is where it gets the filters from - so tube, DLR, Elizabeth and Overground should be the only modes of transport dispalyed
       .filter(leg => ALLOWED_MODES.includes(leg.mode?.id))
       .map(leg => leg.routeOptions?.[0]?.lineIdentifier?.id || leg.line?.id || leg.mode?.id) // -> Used AI to generate this line of code 
-      .join('-');
+      .join('-'); // -> Used AI to generate this line of code 
    
     if (seen.has(lines)){
       return false; 
@@ -53,6 +53,8 @@ export default function App(){
 
   const [lineStatus, setLineStatus] = useState({});
 
+  
+
   // Fetch current status on lines and store it as a map to be passed as props
   useEffect(() => {
     fetch(`https://api.tfl.gov.uk/Line/Mode/tube,dlr,overground,elizabeth-line/Status?app_key=${API_KEY}`)
@@ -61,14 +63,19 @@ export default function App(){
         const statusMap = {};
 
         data.forEach(line => {
-          const status = line.lineStatuses?.[0]?.statusSeverityDescription || "Unknown";
+          const statusInfo = line.lineStatuses?.[0];
 
-          statusMap[line.id] = status
+          statusMap[line.id] = {
+            status: statusInfo?.statusSeverityDescription || "Unknown",
+            reason: statusInfo?.reason || null
+          }
         });
-
+        
         setLineStatus(statusMap);
     });
   }, []);
+
+  
 
 
   // Function that converts station HUBS to station IDs
@@ -137,6 +144,7 @@ export default function App(){
           setJourneyError("No journeys returned - please enter Underground, Overground, DLR or Elizabeth line stations only"); 
           return;
         }
+        
 
         const uniqueJourneys = removeDuplicates(data.journeys); //Only showing journeys that are not repeated
 

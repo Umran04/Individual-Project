@@ -48,7 +48,8 @@ export default function JourneyDisplay({ journey, index, lineStatus }) {
 
           {j < filteredLegs.length - 1 && (
             <div className="interchange">
-              Change at {leg.arrivalPoint.commonName} <FontAwesomeIcon icon={faArrowRight} /> {" "}
+              Change at {leg.arrivalPoint.commonName}
+              <FontAwesomeIcon icon={faArrowRight} /> {" "}
               {/* Fallback options for name of station to change to */}
               {filteredLegs[j + 1].routeOptions?.[0]?.lineIdentifier?.name || filteredLegs[j + 1].line?.name || filteredLegs[j + 1].mode?.name} {/* -> Used AI to generate this line of code */}
             </div>
